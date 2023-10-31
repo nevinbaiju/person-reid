@@ -11,7 +11,7 @@ class Market(BaseDataset):
         
         self.transform = transform
         if self.mode == 'train':
-            self.classes = range(0,100)
+            self.classes = range(0,1000)
         elif self.mode == 'eval':
             self.classes = range(1000,1501)
                 

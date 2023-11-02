@@ -43,7 +43,7 @@ class Proxy_Anchor(torch.nn.Module):
         N_one_hot = 1 - P_one_hot
     
         pos_exp = torch.exp(-self.alpha * (cos - self.mrg))
-        neg_exp = torch.exp(self.alpha * (cos + self.mrg))
+        neg_exp = torch.exp(self.alpha * (cos - self.mrg))
 
         with_pos_proxies = torch.nonzero(P_one_hot.sum(dim = 0) != 0).squeeze(dim = 1)   # The set of positive proxies of data in the batch
         num_valid_proxies = len(with_pos_proxies)   # The number of positive proxies

@@ -3,5 +3,7 @@
 *.pt*
 *.jpg
 *.png
+models/
+results/
 *.mp4
 data

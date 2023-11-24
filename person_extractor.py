@@ -20,7 +20,7 @@ from net.torch_reid_models import build_model
 def get_feature_extractor_model(model_name):
     if model_name == 'resnet_proxy_anchor':
         model = Resnet50(embedding_size=2048, pretrained=True, is_norm=1, bn_freeze =1).cuda()
-        model.load_state_dict(torch.load('models/resnet50_2023_11_22_20_00_13_best.pth')['model_state_dict'])
+        model.load_state_dict(torch.load('models/resnet50_2023_11_22_23_54_53_best.pth')['model_state_dict'])
     elif model_name == 'resnet_2048':
         model = build_model(
             name="resnet50",
@@ -75,12 +75,12 @@ def extract_features(model_name, img_list):
         res = model(imgs)
         embeddings.append(res.cpu().detach().numpy())
 
-    embeddings = torch.nn.functional.normalize(torch.tensor(np.concatenate(embeddings)), dim=0, p=2).numpy()
+    embeddings = torch.tensor(np.concatenate(embeddings)).numpy()
 
     return embeddings
 
 def cluster(embeddings, num_clusters=15):
-    agg_clustering = AgglomerativeClustering(n_clusters=num_clusters, linkage='complete')
+    agg_clustering = AgglomerativeClustering(n_clusters=num_clusters, linkage='complete', metric='cosine')
     cluster_labels = agg_clustering.fit_predict(embeddings)
 
     return cluster_labels
@@ -170,6 +170,11 @@ def main(vid_folder, num_clusters):
     bbox_df['cluster'] = cluster(embeddings, num_clusters=num_clusters)
     draw_bbox_and_save(vid_folder, bbox_df)
     write_people_images(bbox_df, img_list)
+    summary_df = bbox_df.groupby(['cluster', 'cam_id'], as_index=False).agg({'frame_number': ('min', 'max')})
+    summary_df.columns = ['person_id', 'cam_id', 'first_frame', 'last_frame']
+
+    bbox_df.to_csv('temp/bbox.csv', index=None)
+    summary_df.to_csv('temp/summary.csv', index=None)
 
 if __name__ == "__main__":
-    main('../../data/reid_custom', 6)
+    main('../../data/reid_custom', 4)

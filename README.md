@@ -3,11 +3,11 @@
 ### Results on Market1501 dataset
 
 | Model and method | mAP | R@1 | R@5 | R@10 | R@20 |
-|----------|----------|----------|----------|----------|----------|----------|----------|
-| Resnet50 with Proxy Anchor loss, C1 | 79%, C2 | 0.92, C3 | 0.97, C4 | 0.98, C5 | 0.99, C6 |
-| Resnet50 classic method, C1 | 68%, C2 | 0.85 2, C3 | 93%, C4 | 95%, C5 | 97%, C6 |
-| OSNet with Proxy Anchor loss, C1 | 62%, C2 | 83%, C3 | 93%, C4 | 96%, C5 | 98%, C6 |
-| OSNet classic method, C1 | 73%, C2 | 90%, C3 | 96%, C4 | 97%, C5 | 98%, C6 |
+|----------|----------|----------|----------|----------|----------|
+| Resnet50 with Proxy Anchor loss | 79% | 0.92 | 0.97 | 0.98 | 0.99 |
+| Resnet50 classic method | 68% | 0.85 2 | 93% | 95% | 97% |
+| OSNet with Proxy Anchor loss | 62% | 83% | 93% | 96% | 98% |
+| OSNet classic method | 73% | 90% | 96% | 97% | 98% |
 
 
 ### Setting up - Docker method (Preferred)

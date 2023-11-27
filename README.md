@@ -1,11 +1,16 @@
 # Suspicious person tracking across multiple cameras
 
+This project aims to track people across multiple surveillence cameras.
+You can select your source of videos spanning across multiple cameras and use the model to extract the different people that appear in them.
+
+![Preview](src/app_preview.png)
+
 ### Results on Market1501 dataset
 
 | Model and method | mAP | R@1 | R@5 | R@10 | R@20 |
 |----------|----------|----------|----------|----------|----------|
-| Resnet50 with Proxy Anchor loss | 79% | 0.92 | 0.97 | 0.98 | 0.99 |
-| Resnet50 classic method | 68% | 0.85 2 | 93% | 95% | 97% |
+| Resnet50 with Proxy Anchor loss | 79% | 92% | 97% | 98% | 99% |
+| Resnet50 classic method | 68% | 85% | 93% | 95% | 97% |
 | OSNet with Proxy Anchor loss | 62% | 83% | 93% | 96% | 98% |
 | OSNet classic method | 73% | 90% | 96% | 97% | 98% |
 
@@ -25,7 +30,7 @@
 Before you proceed with the notebooks, make sure you follow the steps below: 
 
 1) ```pip install -r requirements.txt```
-2) Download the Market1501 dataset.
+2) Download the (Market1501)[http://zheng-lab.cecs.anu.edu.au/Project/project_reid.html] dataset.
 
 All the notebooks except the train_classic uses Proxy Anchor Loss metric learning for training.
 

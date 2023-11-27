@@ -3,7 +3,10 @@
 This project aims to track people across multiple surveillence cameras.
 You can select your source of videos spanning across multiple cameras and use the model to extract the different people that appear in them.
 
-![Preview](src/app_preview.png)
+<div align="center">
+  <img src="src/app_preview.png" width="100%" height="100%"/>
+</div><br/>
+
 
 ### Results on Market1501 dataset
 

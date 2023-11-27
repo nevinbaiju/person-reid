@@ -1,0 +1,9 @@
+ultralytics==8.0.200
+torch==2.1.0
+streamlit==1.28.2
+Pillow
+numpy
+pandas
+scikit-learn
+opencv-python
+tqdm

@@ -26,6 +26,7 @@ You can select your source of videos spanning across multiple cameras and use th
 4) Copy the videos you want to analyze in the data directory in the project root.
 5) Run the docker command: ```docker-compose build``` to build all the containers.
 6) Run the docker command: ```docker-compose up``` to run the containers.
+7) Download the model from (this folder)[https://drive.google.com/drive/folders/13YaXlI3IyP27bf4-rXBVmw7fvPXlcGBW?usp=sharing].
 7) Open the link http://localhost:8501 to launch the app.
 
 ### Training notebooks guide

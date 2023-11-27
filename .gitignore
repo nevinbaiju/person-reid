@@ -2,9 +2,12 @@
 *ipynb_checkpoints*
 *.pt*
 *.jpg
-*.png
 models/
 results/
+complete
 *.mp4
 data
 test.ipynb
+torchreid/
+temp/
+log/

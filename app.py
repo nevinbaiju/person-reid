@@ -31,14 +31,15 @@ def display_tiles():
     bbox_folder='temp/bbox_clustering'
     people_folders = sorted(os.listdir(bbox_folder))
     for person in people_folders:
-        person_total = os.listdir(os.path.join(bbox_folder, person))
+        person_total = sorted(os.listdir(os.path.join(bbox_folder, person)))
         person_samples = person_total[:2] + person_total[-2:]
-        cams = set(['cam_' + file.split('_')[0] for file in person_total])
-        st.header(f"Identified Person {person} in {cams}")
+        cams = ", ".join(sorted(list(set([file.split('_')[0] for file in person_total]))))
+        st.header(f"Identified Person {person} in cams: {cams}")
         cols = st.columns(4)
         for i, sample in enumerate(person_samples):
             with cols[i]:
-                st.image(Image.open(os.path.join(bbox_folder, person, sample)))
+                st.write('Cam '+sample.split('_')[0])
+                st.image(Image.open(os.path.join(bbox_folder, person, sample)), use_column_width=True)
 
 
 def display_videos(person_id):
@@ -54,7 +55,7 @@ def display_videos(person_id):
         video_file = open(f'temp/processed_vids/{cam_id}.mp4', 'rb')
         video_bytes = video_file.read()
         st.header(f"Camera: {cam_id}")
-        st_videos.append(st.video(video_bytes, start_time=0))
+        st_videos.append(st.video(video_bytes, start_time=first_frame//20))
         col1, col2 = st.columns(2)
         with col1:
             st.write(f"Enters the camera at {first_frame//20}s")
@@ -64,7 +65,7 @@ def display_videos(person_id):
         if button[0]:
             print([x for x in st_videos[i]])  
 
-def scan_images(progbar, vid_folder='../../data/reid_custom', num_clusters=4):
+def scan_images(progbar, vid_folder='./data/', num_clusters=4):
     try:
         shutil.rmtree('temp/')
     except:

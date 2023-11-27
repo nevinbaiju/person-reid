@@ -19,15 +19,15 @@ from net.torch_reid_models import build_model
 
 def get_feature_extractor_model(model_name):
     if model_name == 'resnet_proxy_anchor':
-        model = Resnet50(embedding_size=2048, pretrained=True, is_norm=1, bn_freeze =1).cuda()
-        model.load_state_dict(torch.load('models/resnet50_2023_11_22_23_54_53_best.pth')['model_state_dict'])
+        model = Resnet50(embedding_size=2048, pretrained=True, is_norm=1, bn_freeze =1)
+        model.load_state_dict(torch.load('models/resnet50_2023_11_22_23_54_53_best.pth', map_location=torch.device('cpu'))['model_state_dict'])
     elif model_name == 'resnet_2048':
         model = build_model(
             name="resnet50",
             num_classes=751,
             loss="softmax",
             pretrained=True
-        ).cuda()
+        )
         model.load_state_dict(torch.load('../ITCS-5145-CV/learning/deep-person-reid/log/resnet50/model/model.pth.tar-50')['state_dict'])
     elif model_name == 'resnet_512_reid':
         model = torchreid.models.build_model(
@@ -35,10 +35,13 @@ def get_feature_extractor_model(model_name):
             num_classes=datamanager.num_train_pids,
             loss="softmax",
             pretrained=True
-        ).cuda()
+        )
         model.load_state_dict(torch.load('../ITCS-5145-CV/learning/deep-person-reid/log/resnet50')['state_dict'])
     elif model_name == 'osnet':
-        model = osnet_ibn_x1_0(pretrained=True).cuda()
+        model = osnet_ibn_x1_0(pretrained=True)
+    
+    if torch.cuda.is_available():
+        model = model.cuda()
     
     return model
 
@@ -61,7 +64,7 @@ def extract_features(model_name, img_list):
         dataset,
         batch_size = 16,
         shuffle = False,
-        num_workers = 4,
+        num_workers = 0,
         pin_memory = True
     )
 
@@ -71,7 +74,8 @@ def extract_features(model_name, img_list):
     iterator = tqdm(enumerate(dl))
     for i, dat in iterator:
         imgs, inds = dat
-        imgs = imgs.cuda()
+        if torch.cuda.is_available():
+            imgs = imgs.cuda()
         res = model(imgs)
         embeddings.append(res.cpu().detach().numpy())
 

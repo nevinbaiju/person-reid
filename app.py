@@ -19,7 +19,12 @@ def main():
             display_tiles()
     
     with tab_2:
-        if os.path.exists('complete'):
+        try:
+            with open('complete', 'r') as file:
+                status = file.read()
+        except:
+            status = 'no'
+        if status == 'yes':
             st.write("### View Tab")
             num_people = os.listdir('temp/bbox_clustering')
             folder_number = st.selectbox("Select The person you want to track", list(range(1, len(num_people)+1)))
@@ -66,15 +71,7 @@ def display_videos(person_id):
             print([x for x in st_videos[i]])  
 
 def scan_images(progbar, vid_folder='./data/', num_clusters=4):
-    try:
-        shutil.rmtree('temp/')
-    except:
-        pass
-    try:
-        os.remove('complete')
-    except:
-        pass
-    os.mkdir('temp/')
+    delete_files_in_directory('temp/')
     os.mkdir('temp/drawn_vids/')
     progbar.progress(5, text="Created folders")
     img_list, index_list = scan_folder(vid_folder)
@@ -94,7 +91,7 @@ def scan_images(progbar, vid_folder='./data/', num_clusters=4):
     summary_df.to_csv('temp/summary.csv', index=None) 
     st.success("Scan completed!")
 
-    # subprocess.call(['./convert_vids.sh'])
+    subprocess.call(['./convert_vids.sh'])
 
 def display_images(folder_number):
     st.write(f"Displaying images from folder: {folder_number}")
@@ -115,6 +112,24 @@ def display_images(folder_number):
             st.warning("No images found in the selected folder.")
     else:
         st.warning("Selected folder does not exist.")
+
+def delete_files_in_directory(directory_path):
+    try:
+        files = os.listdir(directory_path)
+        for file in files:
+            try:
+                file_path = os.path.join(directory_path, file)
+                if os.path.isfile(file_path):
+                    os.remove(file_path)
+                else:
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                print(f"{e}: {file_path}")
+        with open('complete', 'w') as file:
+            file.write('')
+        print("All files deleted successfully.")
+    except OSError as e:
+        print("Error occurred while deleting files.", e)
 
 if __name__ == "__main__":
     main()

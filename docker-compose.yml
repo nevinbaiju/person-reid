@@ -5,3 +5,13 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8501:8501"
+    volumes:
+      - ./models:/app/models
+      - ./temp:/app/temp
+      - ./data:/app/data
+      - ./app.py:/app/app.py
+      - ./person_extractor.py:/app/person_extractor.py
+      - ./dataset:/app/dataset
+      - ./net:/app/net
+      - ./convert_vids.sh:/app/convert_vids.sh
+      - ./complete:/app/complete

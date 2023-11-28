@@ -22,4 +22,4 @@ for avi_file in "$input_folder"/*.avi; do
 done
 
 echo "Conversion complete!"
-touch complete
+echo -n 'yes' >> complete

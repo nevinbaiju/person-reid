@@ -6,7 +6,7 @@ import subprocess
 from person_extractor import *
 
 def main():
-    st.title("Image Viewer App")
+    st.title("Track suspicous people")
 
     tab_1, tab_2 = st.tabs(["Home", "Analyze"])
     with tab_1:
@@ -44,7 +44,7 @@ def display_tiles():
         for i, sample in enumerate(person_samples):
             with cols[i]:
                 st.write('Cam '+sample.split('_')[0])
-                st.image(Image.open(os.path.join(bbox_folder, person, sample)), use_column_width=True)
+                st.image(Image.open(os.path.join(bbox_folder, person, sample)).resize((128, 384)), use_column_width=True)
 
 
 def display_videos(person_id):
